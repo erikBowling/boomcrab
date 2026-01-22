@@ -1,16 +1,17 @@
 use ratatui::{
     Frame,
-    layout::{Alignment, Constraint, Direction, Layout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout},
     style::{Color, Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Paragraph},
 };
 
-use super::App;
+use super::app::App;
+use super::components::footer::render_footer;
 
-pub struct ConfigScreen;
+pub struct ConfigPage;
 
-impl ConfigScreen {
+impl ConfigPage {
     pub fn render(frame: &mut Frame, _app: &App) {
         let area = frame.area();
 
@@ -49,13 +50,6 @@ impl ConfigScreen {
             Line::from(""),
             Line::from("Configuration options will be available here."),
             Line::from(""),
-            Line::from("Future features:"),
-            Line::from("  • Master volume control"),
-            Line::from("  • Default device selection"),
-            Line::from("  • Virtual mic configuration"),
-            Line::from("  • Keybinding customization"),
-            Line::from("  • Theme selection"),
-            Line::from(""),
             Line::from(Span::styled(
                 "Coming soon!",
                 Style::default().fg(Color::Green),
@@ -71,15 +65,6 @@ impl ConfigScreen {
                     .border_style(Style::default().fg(Color::Magenta)),
             );
         frame.render_widget(config, chunks[1]);
-
-        Self::render_footer(frame, chunks[2]);
-    }
-
-    fn render_footer(frame: &mut Frame, area: Rect) {
-        let footer = Paragraph::new("Press [1] Start | [2] Main | [3] Config | [q] Quit")
-            .alignment(Alignment::Center)
-            .style(Style::default().fg(Color::DarkGray))
-            .block(Block::default().borders(Borders::ALL));
-        frame.render_widget(footer, area);
+        render_footer(frame, chunks[2]);
     }
 }
